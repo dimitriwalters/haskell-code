@@ -13,11 +13,15 @@ merge (x:xs) (y:ys)
     | x < y     = x : merge xs (y:ys)
     | otherwise = y : merge (x:xs) ys
 
+splitHalf :: [a] -> ([a], [a])
+splitHalf xs = splitAt (floor (fromIntegral (length xs) / 2)) xs
+
+mapTuple :: (a -> b) -> (a, a) -> (b, b)
+mapTuple f (a1, a2) = (f a1, f a2)
+
 mergesort :: (Ord a) => [a] -> [a]
 mergesort []     = []
 mergesort (x:[]) = [x]
 mergesort xs =
-    let (leftHalf, rightHalf) = splitAt (floor (fromIntegral (length xs) / 2)) xs
-        leftSorted            = mergesort leftHalf
-        rightSorted           = mergesort rightHalf
-    in merge leftSorted rightSorted
+    let (left, right) = mapTuple mergesort $ splitHalf xs
+    in merge left right
