@@ -8,3 +8,6 @@ print1To10 = forM_ [1..10] print
 
 sum1To10 :: Int
 sum1To10 = foldl (+) 0 [1..10]
+
+first :: [a] -> a
+first (x:xs) = x
